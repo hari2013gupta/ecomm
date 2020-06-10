@@ -1,4 +1,5 @@
 import 'package:ecomm/model/user.dart';
+import 'package:ecomm/ui/product/product_view.dart';
 import 'package:flutter/material.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -30,10 +31,10 @@ class MyDrawer extends StatelessWidget {
               color: Colors.orange,
               text: 'My Account',
               onTap: () {
-                // Navigator.pop(context);
-                // Navigator.of(context).push(MaterialPageRoute(
-                //   builder: (BuildContext context) => ContactsPage(),
-                // ));
+                Navigator.pop(context);
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => ProductPage(),
+                ));
               }),
           _createDrawerItem(
               icon: Icons.shopping_basket,

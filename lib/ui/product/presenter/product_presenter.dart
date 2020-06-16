@@ -1,24 +1,29 @@
-
 import 'package:ecomm/ui/product/di/depend_inj.dart';
 import 'package:ecomm/ui/product/presenter/product_data.dart';
 
-abstract class ProductListViewContract{
+abstract class ProductListViewContract {
   void onLoadProductComplete(List<Product> items);
   void onLoadProductError();
 }
-class ProductListPresenter{
+
+class ProductListPresenter {
   ProductListViewContract view;
   ProductRepository repository;
-  ProductListPresenter(this.view){
+  
+  ProductListPresenter(this.view) {
     repository = Injector().productRepository;
+    // Injector.configure(Flavor.PRO);
   }
 
-  void loadProducts(){
-
+  void loadProducts() {
     assert(view != null);
 
-    repository.fetchProduct().then((items) => view.onLoadProductComplete(items))
-    .catchError((onError) {
+    repository
+        .fetchProduct()
+        .then((items) => 
+              view.onLoadProductComplete(items)
+            )
+        .catchError((onError) {
       print(onError);
       view.onLoadProductError();
     });

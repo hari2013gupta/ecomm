@@ -11,13 +11,13 @@ class MockProductRepository implements ProductRepository{
 }
 
 const kProducts = <Product>[
-  Product(product_name: 'Product-1',product_id: 11,product_mrp: 1100,product_price: 190),
-  Product(product_name: 'Product-2',product_id: 12,product_mrp: 1200,product_price: 290),
-  Product(product_name: 'Product-3',product_id: 13,product_mrp: 1300,product_price: 390),
-  Product(product_name: 'Product-4',product_id: 14,product_mrp: 1400,product_price: 490),
-  Product(product_name: 'Product-5',product_id: 15,product_mrp: 1500,product_price: 590),
-  Product(product_name: 'Product-6',product_id: 16,product_mrp: 1600,product_price: 690),
-  Product(product_name: 'Product-7',product_id: 17,product_mrp: 1700,product_price: 790),
-  Product(product_name: 'Product-8',product_id: 18,product_mrp: 1800,product_price: 890),
-  Product(product_name: 'Product-9',product_id: 19,product_mrp: 1900,product_price: 990),
+  Product(productName: 'Product-1',productId: 11,productMrp: 1100,productPrice: 190),
+  Product(productName: 'Product-2',productId: 12,productMrp: 1200,productPrice: 290),
+  Product(productName: 'Product-3',productId: 13,productMrp: 1300,productPrice: 390),
+  Product(productName: 'Product-4',productId: 14,productMrp: 1400,productPrice: 490),
+  Product(productName: 'Product-5',productId: 15,productMrp: 1500,productPrice: 590),
+  Product(productName: 'Product-6',productId: 16,productMrp: 1600,productPrice: 690),
+  Product(productName: 'Product-7',productId: 17,productMrp: 1700,productPrice: 790),
+  Product(productName: 'Product-8',productId: 18,productMrp: 1800,productPrice: 890),
+  Product(productName: 'Product-9',productId: 19,productMrp: 1900,productPrice: 990),
 ];

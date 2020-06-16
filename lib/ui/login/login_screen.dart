@@ -1,5 +1,6 @@
 import 'package:ecomm/ui/anim/fade_animS.dart';
 import 'package:ecomm/ui/home/home_page.dart';
+import 'package:ecomm/ui/login/test_db.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -145,8 +146,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MyHomePage(
-                                      title: 'SOI4U',
+                                builder: (context) => //TestDB())
+                                    MyHomePage(
+                                      title: 'Swadesi Shop',
                                     )),
                           ),
                         },

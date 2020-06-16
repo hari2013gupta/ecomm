@@ -66,13 +66,19 @@ class _ProductListState extends State<ProductList>
   @override
   void onLoadProductComplete(List<Product> items) {
     // TODO: implement onLoadProductComplete
-    productList = items;
-    isLoading = false;
+    setState(() {
+      productList = items;
+      isLoading = false;
+    });
   }
 
   @override
   void onLoadProductError() {
     // TODO: implement onLoadProductError
+    print('--------------onLoadProductError product_view');
+    setState(() {
+      isLoading = false;
+    });
   }
 }
 
@@ -82,9 +88,9 @@ class _ProductListState extends State<ProductList>
 class ProductListItem extends ListTile {
   ProductListItem(Product product)
       : super(
-            title: Text(product.product_name),
-            subtitle: Text(product.product_mrp.toString()),
+            title: Text(product.productName),
+            subtitle: Text(product.productMrp.toString()),
             leading: CircleAvatar(
-              child: Text(product.product_name[0]),
+              child: Text(product.productName[0]),
             ));
 }

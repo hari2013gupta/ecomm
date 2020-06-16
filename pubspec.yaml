@@ -35,6 +35,9 @@ dependencies:
   simple_animations: ^2.1.1
   carousel_slider: ^2.1.0
   http: any
+  shared_preferences: ^0.4.2
+  sqflite: any
+  path_provider: any
 
 dev_dependencies:
   flutter_test:

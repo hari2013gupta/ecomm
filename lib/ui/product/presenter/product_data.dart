@@ -63,11 +63,3 @@ class Product {
 abstract class ProductRepository {
   Future<List<Product>> fetchProduct();
 }
-
-class FetchDataException implements Exception {
-  String message;
-  FetchDataException(this.message);
-  String toString() {
-    return 'Exception: $message';
-  }
-}

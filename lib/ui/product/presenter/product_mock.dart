@@ -1,13 +1,12 @@
 import 'package:ecomm/ui/product/presenter/product_data.dart';
+import 'package:ecomm/utils/my_exception.dart';
 
 class MockProductRepository implements ProductRepository{
   @override
   Future<List<Product>> fetchProduct() {
-    // TODO: implement fetchProduct
     return Future.value(kProducts);
     throw new FetchDataException('Exception occured');
   }
-
 }
 
 const kProducts = <Product>[

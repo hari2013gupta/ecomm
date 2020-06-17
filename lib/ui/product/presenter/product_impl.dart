@@ -1,11 +1,11 @@
 import 'dart:convert';
+import 'package:ecomm/utils/my_constant.dart';
+import 'package:ecomm/utils/my_exception.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:ecomm/ui/product/presenter/product_data.dart';
 
 class ProductRepositoryImpl implements ProductRepository {
-  // static const _productUrl = 'http://10.0.2.2:8000/commonTableData';
-  static const _productUrl = 'http://192.168.43.6:8000/commonTableData';
   final JsonDecoder _decoder = new JsonDecoder();
 
   @override
@@ -18,14 +18,13 @@ class ProductRepositoryImpl implements ProductRepository {
     });
 
     final response = await http.post(
-      _productUrl,
+      MyConstant.productUrl,
       headers: header,
       body: bodyString,
     );
     final jsonBody = response.body;
     final statusCode = response.statusCode;
 
-    // TODO: implement fetchProduct
     if (statusCode < 200 || statusCode >= 300 || jsonBody == null) {
       throw new FetchDataException(
           'Error while getting products [status_code:$statusCode, Error:${response.reasonPhrase}]');

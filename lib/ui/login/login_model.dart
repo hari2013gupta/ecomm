@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:ecomm/ui/login/presenter/login_presenter.dart';
+
 Customer customerFromJson(String str) {
   final jsonData = json.decode(str);
   return Customer.fromMap(jsonData);
@@ -17,6 +19,7 @@ class Customer {
   String userPhoto;
   String userPassword;
   String userRating;
+  String token;
   bool isActive;
   bool blockStatus;
 
@@ -27,6 +30,7 @@ class Customer {
     this.userPhoto,
     this.userPassword,
     this.userRating,
+    this.token,
     this.isActive,
     this.blockStatus,
   });
@@ -38,6 +42,7 @@ class Customer {
         userPhoto: json["user_photo"],
         userPassword: json["user_password"],
         userRating: json["user_rating"],
+        token: json["data"],
         isActive: json["is_active"] == 1,
         blockStatus: json["block_status"] == 0,
       );
@@ -49,7 +54,14 @@ class Customer {
         "user_photo": userPhoto,
         "user_password": userPassword,
         "user_rating": userRating,
+        "data": token,
         "is_active": isActive,
         "block_status": blockStatus,
       };
 }
+
+abstract class LoginRepository {
+  void loginView(LoginViewContract view);
+  Future<Customer> fetchLogin(String mobile, String password);
+}
+

@@ -1,14 +1,28 @@
 import 'package:ecomm/ui/anim/fade_animS.dart';
 import 'package:ecomm/ui/home/home_page.dart';
+import 'package:ecomm/ui/login/database.dart';
+import 'package:ecomm/ui/login/login_model.dart';
+import 'package:ecomm/ui/login/pref.dart';
+import 'package:ecomm/ui/login/presenter/login_presenter.dart';
 import 'package:ecomm/ui/login/test_db.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginScreen extends StatefulWidget {
+  LoginScreen({Key key}) : super(key: key);
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen>
+    implements LoginViewContract {
+  TextEditingController mobileController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
+
+  LoginPresenter presenter;
+  _LoginScreenState() {
+    presenter = new LoginPresenter(this);
+  }
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -106,15 +120,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                       bottom:
                                           BorderSide(color: Colors.grey[200]))),
                               child: TextField(
+                                controller: mobileController,
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
-                                    hintText: "Username",
+                                    hintText: "Mobile Number",
                                     hintStyle: TextStyle(color: Colors.grey)),
                               ),
                             ),
                             Container(
                               padding: EdgeInsets.all(10),
                               child: TextField(
+                                controller: passwordController,
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
                                     hintText: "Password",
@@ -142,15 +158,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       1.9,
                       GestureDetector(
                         onTap: () => {
-                          Navigator.pop(context),
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => //TestDB())
-                                    MyHomePage(
-                                      title: 'Swadesi Shop',
-                                    )),
-                          ),
+                          //todo: code here----------------by hari
+                          presenter.loadLoginService(),
+
+                          //   Navigator.pop(context),
+                          //   Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => //TestDB())
+                          //             MyHomePage(
+                          //               title: 'Swadesi Shop',
+                          //             )),
+                          //   ),
                         },
                         child: Container(
                           height: 50,
@@ -182,5 +201,74 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void onLoadLoginComplete(Customer data) {
+    // TODO: implement onLoadLoginComplete
+    setState(() {
+      showMessage(getToken().toString());
+      FutureBuilder<List<Customer>>(
+        future: DBProvider.db.getAllCustomer(),
+        builder: (BuildContext context, AsyncSnapshot<List<Customer>> snapshot) {
+          if (snapshot.hasData) {
+            showMessage('=========' + snapshot.data.length.toString());
+          }
+    });
+  });
+}
+
+  @override
+  void onLoadLoginError() {
+    // TODO: implement onLoadLoginError
+    setState(() {});
+  }
+
+  @override
+  String getViewMobileNo() {
+    // TODO: implement getViewMobileNo
+    return mobileController.text;
+    throw UnimplementedError();
+  }
+
+  @override
+  String getViewPassword() {
+    // TODO: implement getViewPassword
+    return passwordController.text;
+    throw UnimplementedError();
+  }
+
+  @override
+  void hideProgress() {
+    // TODO: implement hideProgress
+  }
+
+  @override
+  void showMessage(String msg) {
+    // TODO: implement showMessage
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIos: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
+
+  @override
+  void showProgress(String msg) {
+    // TODO: implement showProgress
+  }
+
+  @override
+  void showSnack(String msg) {
+    // TODO: implement showSnack not work here hari
+    final scaffold = Scaffold.of(context);
+    scaffold.showSnackBar(SnackBar(
+      content: Text(msg),
+      action:
+          SnackBarAction(label: 'OK', onPressed: scaffold.hideCurrentSnackBar),
+    ));
   }
 }

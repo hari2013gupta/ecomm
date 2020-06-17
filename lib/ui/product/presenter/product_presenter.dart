@@ -12,7 +12,6 @@ class ProductListPresenter {
   
   ProductListPresenter(this.view) {
     repository = Injector().productRepository;
-    // Injector.configure(Flavor.PRO);
   }
 
   void loadProducts() {

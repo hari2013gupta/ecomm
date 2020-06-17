@@ -1,3 +1,6 @@
+import 'package:ecomm/ui/login/login_model.dart';
+import 'package:ecomm/ui/login/presenter/login_impl.dart';
+import 'package:ecomm/ui/login/presenter/login_mock.dart';
 import 'package:ecomm/ui/product/presenter/product_data.dart';
 import 'package:ecomm/ui/product/presenter/product_impl.dart';
 import 'package:ecomm/ui/product/presenter/product_mock.dart';
@@ -25,6 +28,14 @@ class Injector {
         return MockProductRepository();
       default: //Flavor.PRO:
         return ProductRepositoryImpl();
+    }
+  }
+  LoginRepository get loginRepository {
+    switch (_flavor) {
+      case Flavor.MOCK:
+        return MockLoginRepository();
+      default: //Flavor.PRO:
+        return LoginRepositoryImpl();
     }
   }
 }

@@ -40,6 +40,7 @@ class DBProvider {
           "user_photo TEXT,"
           "user_password TEXT,"
           "user_rating INTEGER,"
+          "user_token TEXT,"
           "is_active BIT,"
           "block_status BIT"
           ")");
@@ -67,9 +68,10 @@ class DBProvider {
     int id = table.first["id"];
     //insert to the table using the new id
     var raw = await db.rawInsert(
-        "INSERT Into Customer (id,user_id,user_name,user_photo,user_password,user_rating,is_active,block_status)"
-        " VALUES (?,?,?,?,?,?,?,?)",
-        [id, user.userId, user.userName, user.isActive, user.blockStatus]);
+        "INSERT Into Customer (id,user_id,user_name,user_photo,user_password,user_rating,user_token,is_active,block_status)"
+        " VALUES (?,?,?,?,?,?,?,?,?)",
+        [id,user.userId,user.userName,user.userPhoto,user.userPassword,
+        user.userRating,user.token,user.isActive, user.blockStatus]);
     return raw;
   }
 

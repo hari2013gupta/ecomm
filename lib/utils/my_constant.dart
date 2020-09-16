@@ -1,10 +1,11 @@
 class MyConstant {
   static const app_name = 'SwadesiShop';
 
-  // static const localhost = 'http://10.0.2.2:8000';
-  static const baseUrl = 'http://192.168.43.6:8000/';
-  static const productUrl = baseUrl + 'commonTableData';
-  static const loginUrl = baseUrl + 'login';
+  static const localhost = 'http://10.0.2.2:8000/';
+  static const baseUrl = 'http://192.168.43.87:8000/';
+  static const mainUrl = localhost;
+  static const productUrl = mainUrl + 'commonTableData';
+  static const loginUrl = mainUrl + 'login';
 
   //All table added here
   //phase-I---------------Start 01stJune2020

@@ -12,6 +12,11 @@ class LoginRepositoryImpl implements LoginRepository {
   Future<Customer> fetchLogin(String mobileNo, String password) async {
     Map<String, String> header = {
       'Content-Type': 'application/json; charset=UTF-8',
+      // 'Access-Control-Allow-Origin': '.htaccess',
+      "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+      // "Access-Control-Allow-Credentials": 'true', // Required for cookies, authorization headers with HTTPS
+      // "Access-Control-Allow-Headers": "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+      "Access-Control-Allow-Methods": "GET,POST,OPTIONS,DELETE,PUT"
     };
     String bodyString = jsonEncode(<String, String>{
       'mobile': mobileNo,

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ecomm/ui/anim/fade_animS.dart';
 import 'package:ecomm/ui/home/home_page.dart';
 import 'package:ecomm/ui/login/database.dart';
@@ -5,7 +7,9 @@ import 'package:ecomm/ui/login/login_model.dart';
 import 'package:ecomm/ui/login/pref.dart';
 import 'package:ecomm/ui/login/presenter/login_presenter.dart';
 import 'package:ecomm/ui/login/test_db.dart';
+import 'package:ecomm/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,8 +18,16 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen>
-    implements LoginViewContract {
+class _LoginScreenState extends State<LoginScreen> implements LoginViewContract {
+
+  void startServiceInPlatform() async {
+    if(Platform.isAndroid){
+      var methodChannel = MethodChannel("com.retroportalstudio.messages");
+      String data = await methodChannel.invokeMethod("startService");
+      debugPrint(data);
+    }
+  }
+
   TextEditingController mobileController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
 
@@ -121,20 +133,48 @@ class _LoginScreenState extends State<LoginScreen>
                                           BorderSide(color: Colors.grey[200]))),
                               child: TextField(
                                 controller: mobileController,
+                                maxLines: 1,
+                                maxLength: 10,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.purple,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'OpenSans',
+                                ),
                                 decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: "Mobile Number",
-                                    hintStyle: TextStyle(color: Colors.grey)),
+                                  border: InputBorder.none,
+                                  hintText: "Mobile Number",
+                                  contentPadding: EdgeInsets.only(top: 14.0),
+                                  prefixIcon: Icon(
+                                    Icons.phone_android,
+                                    color: Colors.purple,
+                                  ),
+                                  hintStyle: kLabelStyleLight,
+                                ),
                               ),
                             ),
                             Container(
                               padding: EdgeInsets.all(10),
                               child: TextField(
                                 controller: passwordController,
+                                maxLines: 1,
+                                maxLength: 10,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.purple,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'OpenSans',
+                                ),
                                 decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: "Password",
-                                    hintStyle: TextStyle(color: Colors.grey)),
+                                  border: InputBorder.none,
+                                  hintText: "Password",
+                                  contentPadding: EdgeInsets.only(top: 14.0),
+                                  prefixIcon: Icon(
+                                    Icons.lock,
+                                    color: Colors.purple,
+                                  ),
+                                  hintStyle: kLabelStyleLight,
+                                ),
                               ),
                             )
                           ],
@@ -207,16 +247,21 @@ class _LoginScreenState extends State<LoginScreen>
   void onLoadLoginComplete(Customer data) {
     // TODO: implement onLoadLoginComplete
     setState(() {
-      showMessage(getToken().toString());
+      showMessage(getTokenSF().toString());
+
       FutureBuilder<List<Customer>>(
-        future: DBProvider.db.getAllCustomer(),
-        builder: (BuildContext context, AsyncSnapshot<List<Customer>> snapshot) {
-          if (snapshot.hasData) {
-            showMessage('=========' + snapshot.data.length.toString());
-          }
+          future: DBProvider.db.getAllCustomer(),
+          builder:
+              (BuildContext context, AsyncSnapshot<List<Customer>> snapshot) {
+            if (snapshot.hasData) {
+
+                  startServiceInPlatform();
+                  
+              showMessage('=========' + snapshot.data.length.toString());
+            }
+          });
     });
-  });
-}
+  }
 
   @override
   void onLoadLoginError() {

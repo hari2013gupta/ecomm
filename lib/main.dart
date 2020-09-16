@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  final appTitle = 'SOI4U';
+  final appTitle = 'SwadesiShop';
 
   @override
   Widget build(BuildContext context) {

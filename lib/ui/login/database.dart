@@ -24,7 +24,7 @@ class DBProvider {
   initDB() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "SwadesiShopDB.db");
-    return await openDatabase(path, version: 1, onOpen: (db) {},
+    return await openDatabase(path, version: 3, onOpen: (db) {},
         onCreate: (Database db, int version) async {
       await db.execute("CREATE TABLE City ("
           "database_id INTEGER PRIMARY KEY,"
@@ -36,10 +36,16 @@ class DBProvider {
       await db.execute("CREATE TABLE Customer ("
           "id INTEGER PRIMARY KEY,"
           "user_id INTEGER,"
+          "user_mobile TEXT,"
+          "user_email TEXT,"
           "user_name TEXT,"
+          "user_otp TEXT,"
           "user_photo TEXT,"
           "user_password TEXT,"
           "user_rating INTEGER,"
+          "user_remark TEXT,"
+          "created_at TEXT,"
+          "updated_at TEXT,"
           "user_token TEXT,"
           "is_active BIT,"
           "block_status BIT"
@@ -58,6 +64,19 @@ class DBProvider {
           "product_price INTEGER,"
           "product_active BIT"
           ")");
+    }, onUpgrade: (Database db, int oldVersion, int newVersion) async {
+      if (oldVersion < newVersion) {
+        try {
+          db.execute("ALTER TABLE CUSTOMER ADD COLUMN user_mobile TEXT");
+          db.execute("ALTER TABLE CUSTOMER ADD COLUMN user_email TEXT");
+          db.execute("ALTER TABLE CUSTOMER ADD COLUMN user_otp TEXT");
+          db.execute("ALTER TABLE CUSTOMER ADD COLUMN user_remark TEXT");
+          db.execute("ALTER TABLE CUSTOMER ADD COLUMN created_at TEXT");
+          db.execute("ALTER TABLE CUSTOMER ADD COLUMN updated_at TEXT");
+        } catch (e) {
+          print(e);
+        }
+      }
     });
   }
 
@@ -68,10 +87,25 @@ class DBProvider {
     int id = table.first["id"];
     //insert to the table using the new id
     var raw = await db.rawInsert(
-        "INSERT Into Customer (id,user_id,user_name,user_photo,user_password,user_rating,user_token,is_active,block_status)"
-        " VALUES (?,?,?,?,?,?,?,?,?)",
-        [id,user.userId,user.userName,user.userPhoto,user.userPassword,
-        user.userRating,user.token,user.isActive, user.blockStatus]);
+        "INSERT Into Customer (id,user_id,user_name,user_mobile,user_email,user_photo,user_otp,user_password,user_rating,user_remark,created_at,updated_at,user_token,is_active,block_status)"
+        " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        [
+          id,
+          user.userId,
+          user.userName,
+          user.userMobile,
+          user.userEmail,
+          user.userPhoto,
+          user.userOTP,
+          user.userPassword,
+          user.userRating,
+          user.userRemark,
+          user.userCreatedAt,
+          user.userUpdatedAt,
+          user.token,
+          user.isActive,
+          user.blockStatus
+        ]);
     return raw;
   }
 
@@ -129,7 +163,8 @@ class DBProvider {
 
   getCustomer(int userId) async {
     final db = await database;
-    var res = await db.query("Customer", where: "user_id = ?", whereArgs: [userId]);
+    var res =
+        await db.query("Customer", where: "user_id = ?", whereArgs: [userId]);
     return res.isNotEmpty ? Customer.fromMap(res.first) : null;
   }
 

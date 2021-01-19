@@ -18,7 +18,7 @@ class LoginRepositoryImpl implements LoginRepository {
       // "Access-Control-Allow-Headers": "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
       "Access-Control-Allow-Methods": "GET,POST,OPTIONS,DELETE,PUT"
     };
-    String bodyString = jsonEncode(<String, String>{
+    String bodyString = jsonEncode(<String, String> {
       'mobile': mobileNo,
       'password': password,
     });

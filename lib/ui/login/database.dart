@@ -67,12 +67,7 @@ class DBProvider {
     }, onUpgrade: (Database db, int oldVersion, int newVersion) async {
       if (oldVersion < newVersion) {
         try {
-          db.execute("ALTER TABLE CUSTOMER ADD COLUMN user_mobile TEXT");
-          db.execute("ALTER TABLE CUSTOMER ADD COLUMN user_email TEXT");
-          db.execute("ALTER TABLE CUSTOMER ADD COLUMN user_otp TEXT");
-          db.execute("ALTER TABLE CUSTOMER ADD COLUMN user_remark TEXT");
-          db.execute("ALTER TABLE CUSTOMER ADD COLUMN created_at TEXT");
-          db.execute("ALTER TABLE CUSTOMER ADD COLUMN updated_at TEXT");
+          // db.execute("ALTER TABLE CUSTOMER ADD COLUMN user_mobile TEXT");
         } catch (e) {
           print(e);
         }

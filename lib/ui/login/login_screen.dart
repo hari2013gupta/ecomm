@@ -18,10 +18,10 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> implements LoginViewContract {
-
+class _LoginScreenState extends State<LoginScreen>
+    implements LoginViewContract {
   void startServiceInPlatform() async {
-    if(Platform.isAndroid){
+    if (Platform.isAndroid) {
       var methodChannel = MethodChannel("com.retroportalstudio.messages");
       String data = await methodChannel.invokeMethod("startService");
       debugPrint(data);
@@ -243,24 +243,26 @@ class _LoginScreenState extends State<LoginScreen> implements LoginViewContract 
     );
   }
 
+  Future<void> _getRecords() async {
+    var res = await DBProvider.db.getAllCustomer();
+    setState(() {
+      startServiceInPlatform();
+
+      showMessage('=========' + res.length.toString());
+    });
+  }
+
   @override
   void onLoadLoginComplete(Customer data) {
     // TODO: implement onLoadLoginComplete
-    setState(() {
-      showMessage(getTokenSF().toString());
+    showMessage(getTokenSF().toString());
+    _getRecords();
 
-      FutureBuilder<List<Customer>>(
-          future: DBProvider.db.getAllCustomer(),
-          builder:
-              (BuildContext context, AsyncSnapshot<List<Customer>> snapshot) {
-            if (snapshot.hasData) {
-
-                  startServiceInPlatform();
-                  
-              showMessage('=========' + snapshot.data.length.toString());
-            }
-          });
-    });
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => MyHomePage()),
+    );
   }
 
   @override
